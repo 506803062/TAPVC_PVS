@@ -1643,8 +1643,11 @@ library(ggpubr)
 library(cowplot)
 library(reshape2)
 
+#Input data
+ctl <- Load10X_Spatial(data.dir = "path/space/rawdata/control/control-HD/outs", bin.size = c(8,16))
+PVS <- Load10X_Spatial(data.dir = "path/space/rawdata/PVS-tapvc-HD/outs", bin.size = c(8,16))
+                          
 #### Merge
-ctl <- readRDS("path/PVS/space/result/ctl_original.rds")
 Assays(ctl)
 DefaultAssay(ctl) <- "Spatial.008um"
 ctl_qc <- subset(ctl, subset = nFeature_Spatial.008um > 2)
@@ -1652,7 +1655,6 @@ ctl_qc <- NormalizeData(ctl_qc)
 ctl_qc <- FindVariableFeatures(ctl_qc)
 ctl_qc <- ScaleData(ctl_qc)
 
-PVS <- readRDS("path/PVS/space/result/PVS_original.rds")
 Assays(PVS)
 DefaultAssay(PVS) <- "Spatial.008um"
 PVS_qc <- subset(PVS, subset = nFeature_Spatial.008um > 2)
@@ -1825,4 +1827,5 @@ ggplot(data = df, aes(x =Number, y = Group, fill = Cluster)) +
   theme(axis.text.x = element_text(size=12, colour = "black"))+
   theme(
     axis.text.x.bottom = element_text(hjust = 1, vjust = 1, angle = 90)
+
   )
